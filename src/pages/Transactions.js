@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
+import { useSelector } from 'react-redux';
 
 const TransactionTable = () => {
   const [transactions, setTransactions] = useState([]);
@@ -9,6 +10,7 @@ const TransactionTable = () => {
   const [sortColumn, setSortColumn] = useState('');
   const [sortDirection, setSortDirection] = useState('asc');
   const [filters, setFilters] = useState({});
+  const darkMode = useSelector((state) => state.theme.darkMode);
 
   useEffect(() => {
     const dummyData = generateDummyData(56);
@@ -81,14 +83,22 @@ const TransactionTable = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className='container mx-auto p-5'>
-      <table className='min-w-full bg-white'>
+    <div
+      className={`container mx-auto p-4 ${
+        darkMode ? 'bg-gray-900' : 'bg-gray-100'
+      }`}
+    >
+      <table className={`min-w-full ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
         <thead>
           <tr>
             {['ID', 'User', 'Amount', 'Date', 'Status'].map((column) => (
               <th
                 key={column.toLowerCase()}
-                className='px-6 py-3 border-b-2 border-gray-300 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider'
+                className={`px-6 py-3 border-b-2 ${
+                  darkMode
+                    ? 'border-gray-700 text-gray-400'
+                    : 'border-gray-300 text-gray-500'
+                } text-left text-xs leading-4 font-medium uppercase tracking-wider`}
               >
                 <div className='flex items-center'>
                   <span>{column}</span>
@@ -110,7 +120,11 @@ const TransactionTable = () => {
                 <input
                   type='text'
                   placeholder={`Filter ${column}`}
-                  className='mt-1 p-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-100 focus:ring focus:ring-indigo-100 focus:ring-opacity-50'
+                  className={`mt-1 p-1 block w-full rounded-md ${
+                    darkMode
+                      ? 'bg-gray-700 text-gray-300 border-gray-600'
+                      : 'border-gray-300'
+                  } shadow-sm focus:border-indigo-100 focus:ring focus:ring-indigo-100 focus:ring-opacity-50`}
                   onChange={(e) =>
                     handleFilter(column.toLowerCase(), e.target.value)
                   }
@@ -122,19 +136,39 @@ const TransactionTable = () => {
         <tbody>
           {currentItems.map((transaction) => (
             <tr key={transaction.id}>
-              <td className='px-6 py-4 whitespace-no-wrap border-b border-gray-200'>
+              <td
+                className={`px-6 py-4 whitespace-no-wrap border-b ${
+                  darkMode ? 'border-gray-700 text-gray-300' : 'border-gray-200'
+                }`}
+              >
                 {transaction.id}
               </td>
-              <td className='px-6 py-4 whitespace-no-wrap border-b border-gray-200'>
+              <td
+                className={`px-6 py-4 whitespace-no-wrap border-b ${
+                  darkMode ? 'border-gray-700 text-gray-300' : 'border-gray-200'
+                }`}
+              >
                 {transaction.user}
               </td>
-              <td className='px-6 py-4 whitespace-no-wrap border-b border-gray-200'>
+              <td
+                className={`px-6 py-4 whitespace-no-wrap border-b ${
+                  darkMode ? 'border-gray-700 text-gray-300' : 'border-gray-200'
+                }`}
+              >
                 ${transaction.amount}
               </td>
-              <td className='px-6 py-4 whitespace-no-wrap border-b border-gray-200'>
+              <td
+                className={`px-6 py-4 whitespace-no-wrap border-b ${
+                  darkMode ? 'border-gray-700 text-gray-300' : 'border-gray-200'
+                }`}
+              >
                 {transaction.date}
               </td>
-              <td className='px-6 py-4 whitespace-no-wrap border-b border-gray-200'>
+              <td
+                className={`px-6 py-4 whitespace-no-wrap border-b ${
+                  darkMode ? 'border-gray-700' : 'border-gray-200'
+                }`}
+              >
                 <span
                   className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                     transaction.status === 'Completed'
@@ -156,7 +190,11 @@ const TransactionTable = () => {
           <button
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
-            className='relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50'
+            className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium rounded-md ${
+              darkMode
+                ? 'border-gray-600 text-gray-300 bg-gray-800 hover:bg-gray-700'
+                : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'
+            }`}
           >
             Previous
           </button>
@@ -167,10 +205,14 @@ const TransactionTable = () => {
               <button
                 key={index}
                 onClick={() => paginate(index + 1)}
-                className={`-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium ${
+                className={`-ml-px relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
                   currentPage === index + 1
-                    ? 'text-indigo-600 hover:bg-indigo-50'
-                    : 'text-gray-700 hover:bg-gray-50'
+                    ? darkMode
+                      ? 'text-indigo-300 bg-gray-700'
+                      : 'text-indigo-600 bg-indigo-50'
+                    : darkMode
+                    ? 'text-gray-300 bg-gray-800 hover:bg-gray-700'
+                    : 'text-gray-700 bg-white hover:bg-gray-50'
                 }`}
               >
                 {index + 1}
@@ -183,7 +225,11 @@ const TransactionTable = () => {
               currentPage ===
               Math.ceil(filteredTransactions.length / itemsPerPage)
             }
-            className='relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50'
+            className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium rounded-md ${
+              darkMode
+                ? 'border-gray-600 text-gray-300 bg-gray-800 hover:bg-gray-700'
+                : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'
+            }`}
           >
             Next
           </button>

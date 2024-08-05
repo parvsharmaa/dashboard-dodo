@@ -15,8 +15,9 @@ import {
   DocumentTextIcon,
   ChatBubbleBottomCenterTextIcon,
 } from '@heroicons/react/24/outline';
+import { useSelector } from 'react-redux';
 
-const SidebarItem = ({ icon, text, to, subItems = [] }) => {
+const SidebarItem = ({ icon, text, to, subItems = [], darkMode }) => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const active = location.pathname === to;
@@ -27,8 +28,8 @@ const SidebarItem = ({ icon, text, to, subItems = [] }) => {
       <Link
         to={to}
         className={`flex items-center gap-1 py-2 px-4 ${
-          active ? 'bg-gray-200' : ''
-        }`}
+          active ? (darkMode ? 'bg-gray-700 text-white' : 'bg-gray-200') : ''
+        } ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
         onClick={() => hasSubItems && setIsOpen(!isOpen)}
       >
         {hasSubItems && (
@@ -41,12 +42,12 @@ const SidebarItem = ({ icon, text, to, subItems = [] }) => {
           </span>
         )}
         <div className='flex items-center space-x-3'>
-          <span className='text-gray-500'>{icon}</span>
+          <span>{icon}</span>
           <span>{text}</span>
         </div>
       </Link>
       {isOpen && hasSubItems && (
-        <ul className='ml-8'>
+        <ul className={`ml-8 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
           {subItems.map((item, index) => (
             <li key={index}>
               <Link to={item.to} className='block py-2 px-4'>
@@ -61,15 +62,28 @@ const SidebarItem = ({ icon, text, to, subItems = [] }) => {
 };
 
 function Sidebar() {
+  const user = useSelector((state) => state.user);
+  const darkMode = useSelector((state) => state.theme.darkMode);
+
   return (
-    <div className='w-64 bg-white shadow-md flex flex-col h-ful p-2'>
+    <div
+      className={`w-64 ${
+        darkMode ? 'bg-gray-900 text-gray-300' : 'bg-white text-gray-700'
+      } shadow-md flex flex-col h-full p-2`}
+    >
       <div className='p-4 flex items-center space-x-2'>
         <div className='w-7 h-7 rounded-full'>
-          <UserCircleIcon class='text-gray-500' />
+          <UserCircleIcon
+            className={darkMode ? 'text-gray-400' : 'text-gray-500'}
+          />
         </div>
-        <h1 className='text-xl font-bold'>Superstars AI</h1>
+        <h1 className='text-xl font-bold'>{user.name || 'Superstars AI'}</h1>
       </div>
-      <div className='px-4 py-2 flex justify-between text-sm text-gray-500'>
+      <div
+        className={`px-4 py-2 flex justify-between text-sm ${
+          darkMode ? 'text-gray-500' : 'text-gray-700'
+        }`}
+      >
         <span>Favorites</span>
         <span>Recently</span>
       </div>
@@ -80,36 +94,48 @@ function Sidebar() {
             text='Get Started'
             to='/get-started'
             subItems={null}
+            darkMode={darkMode}
           />
           <SidebarItem
             icon='•'
             text='Transactions'
             to='/transactions'
             subItems={null}
+            darkMode={darkMode}
           />
-          <div className='px-4 py-2 text-sm text-gray-500'>Pages</div>
+          <div
+            className={`px-4 py-2 text-sm ${
+              darkMode ? 'text-gray-500' : 'text-gray-700'
+            }`}
+          >
+            Pages
+          </div>
           <SidebarItem
-            icon={<RocketLaunchIcon class='h-6 w-6 text-gray-500' />}
+            icon={<RocketLaunchIcon className='h-6 w-6' />}
             text='Overview'
             to='/'
+            darkMode={darkMode}
           />
           <SidebarItem
-            icon={<CurrencyDollarIcon class='h-6 w-6 text-gray-500' />}
+            icon={<CurrencyDollarIcon className='h-6 w-6' />}
             text='Transactions'
             to='/transactions'
+            darkMode={darkMode}
           />
           <SidebarItem
-            icon={<NewspaperIcon class='h-6 w-6 text-gray-500' />}
+            icon={<NewspaperIcon className='h-6 w-6' />}
             text='Invoices'
             to='/invoices'
+            darkMode={darkMode}
           />
           <SidebarItem
-            icon={<UsersIcon class='h-6 w-6 text-gray-500' />}
+            icon={<UsersIcon className='h-6 w-6' />}
             text='Customers'
             to='/customers'
+            darkMode={darkMode}
           />
           <SidebarItem
-            icon={<NewspaperIcon class='h-6 w-6 text-gray-500' />}
+            icon={<NewspaperIcon className='h-6 w-6' />}
             text='Product Catalog'
             to='/product-catalog'
             subItems={[
@@ -118,49 +144,62 @@ function Sidebar() {
               { text: 'Discounts', to: '/product-catalog/discounts' },
               { text: 'Taxable Items', to: '/product-catalog/taxable-items' },
             ]}
+            darkMode={darkMode}
           />
           <SidebarItem
-            icon={<ChartBarSquareIcon class='h-6 w-6 text-gray-500' />}
+            icon={<ChartBarSquareIcon className='h-6 w-6' />}
             text='Reports'
             to='/reports'
+            darkMode={darkMode}
           />
           <SidebarItem
-            icon={<ShoppingCartIcon class='h-6 w-6 text-gray-500' />}
+            icon={<ShoppingCartIcon className='h-6 w-6' />}
             text='Checkout'
             to='/checkout'
+            darkMode={darkMode}
           />
           <SidebarItem
-            icon={<BookOpenIcon class='h-6 w-6 text-gray-500' />}
+            icon={<BookOpenIcon className='h-6 w-6' />}
             text='Business Account'
             to='/business-account'
+            darkMode={darkMode}
           />
           <SidebarItem
-            icon={<Cog8ToothIcon class='h-6 w-6 text-gray-500' />}
-            text='Developer Tools'
-            to='/developer-tools'
+            icon={<Cog8ToothIcon className='h-6 w-6' />}
+            text='Settings'
+            to='/settings'
+            darkMode={darkMode}
           />
         </ul>
-        <div className='px-4 py-2 text-sm text-gray-500'>Pages</div>
+        <div
+          className={`px-4 py-2 text-sm ${
+            darkMode ? 'text-gray-500' : 'text-gray-700'
+          }`}
+        >
+          Pages
+        </div>
         <ul>
           <SidebarItem
-            icon={<DocumentTextIcon class='h-6 w-6 text-gray-500' />}
+            icon={<DocumentTextIcon className='h-6 w-6' />}
             text='Documentation'
             to='/documentation'
             subItems={null}
+            darkMode={darkMode}
           />
           <SidebarItem
-            icon={
-              <ChatBubbleBottomCenterTextIcon class='h-6 w-6 text-gray-500' />
-            }
+            icon={<ChatBubbleBottomCenterTextIcon className='h-6 w-6' />}
             text='Help Center'
             to='/help-center'
             subItems={null}
+            darkMode={darkMode}
           />
         </ul>
       </nav>
-      <div className='mt-auto p-6'>
-        <img src='/img/dodo_logo.jpg' alt='DODO PAYMENTS' className='h-14' />
-      </div>
+      {!darkMode && (
+        <div className='mt-auto p-6'>
+          <img src='/img/dodo_logo.jpg' alt='DODO PAYMENTS' className='h-14' />
+        </div>
+      )}
     </div>
   );
 }

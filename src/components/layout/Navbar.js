@@ -4,13 +4,14 @@ import {
   MagnifyingGlassIcon,
   BellIcon,
   SunIcon,
+  MoonIcon,
   RocketLaunchIcon,
   StarIcon,
   ClockIcon,
   WindowIcon,
 } from '@heroicons/react/24/outline';
 
-function Navbar() {
+function Navbar({ onToggleDarkMode, darkMode }) {
   const location = useLocation();
   const pageName =
     location.pathname === '/' ? 'Overview' : location.pathname.slice(1);
@@ -23,14 +24,18 @@ function Navbar() {
   }
 
   return (
-    <nav className='bg-white shadow-sm'>
+    <nav
+      className={`shadow-sm ${
+        darkMode ? 'bg-gray-800 text-white' : 'bg-white'
+      }`}
+    >
       <div className='flex justify-between items-center p-4'>
         <div className='flex items-center space-x-2'>
-          <RocketLaunchIcon class='h-6 w-6 text-gray-500' />
-          <StarIcon class='h-6 w-6 text-gray-500' />
+          <RocketLaunchIcon className='h-6 w-6 text-gray-500' />
+          <StarIcon className='h-6 w-6 text-gray-500' />
           <span className='text-gray-500'>Pages</span>
           <span>/</span>
-          <span className='font-semibold text-gray-700'>
+          <span className='font-semibold'>
             {capitalizeFirstLetterOfEachWord(pageName)}
           </span>
         </div>
@@ -39,14 +44,32 @@ function Navbar() {
             <input
               type='text'
               placeholder='Search'
-              className='pl-8 pr-4 py-2 rounded-lg border'
+              className={`pl-8 pr-4 py-2 rounded-lg border ${
+                darkMode
+                  ? 'bg-gray-700 border-gray-600 text-white'
+                  : 'border-gray-300'
+              }`}
             />
-            <MagnifyingGlassIcon className='h-5 w-5 absolute left-2 top-2.5 text-gray-400' />
+            <MagnifyingGlassIcon
+              className={`h-5 w-5 absolute left-2 top-2.5 ${
+                darkMode ? 'text-gray-400' : 'text-gray-400'
+              }`}
+            />
           </div>
-          <SunIcon className='h-6 w-6' />
-          <ClockIcon class='h-6 w-6' />
+          {darkMode ? (
+            <MoonIcon
+              className='h-6 w-6 cursor-pointer'
+              onClick={onToggleDarkMode}
+            />
+          ) : (
+            <SunIcon
+              className='h-6 w-6 cursor-pointer'
+              onClick={onToggleDarkMode}
+            />
+          )}
+          <ClockIcon className='h-6 w-6' />
           <BellIcon className='h-6 w-6' />
-          <WindowIcon class='h-6 w-6' />
+          <WindowIcon className='h-6 w-6' />
         </div>
       </div>
     </nav>

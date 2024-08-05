@@ -7,13 +7,26 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts';
+import { useSelector } from 'react-redux';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 function PieChartCard({ title, data }) {
+  const darkMode = useSelector((state) => state.theme.darkMode);
+
   return (
-    <div className='bg-white p-4 rounded-lg shadow'>
-      <h3 className='text-lg font-semibold mb-4'>{title}</h3>
+    <div
+      className={`p-4 rounded-lg shadow ${
+        darkMode ? 'bg-gray-800' : 'bg-white'
+      }`}
+    >
+      <h3
+        className={`text-lg font-semibold mb-4 ${
+          darkMode ? 'text-gray-300' : 'text-gray-800'
+        }`}
+      >
+        {title}
+      </h3>
       <ResponsiveContainer width='100%' height={300}>
         <PieChart>
           <Pie
@@ -22,7 +35,7 @@ function PieChartCard({ title, data }) {
             cy='50%'
             innerRadius={60}
             outerRadius={100}
-            fill='#8884d8'
+            fill={darkMode ? '#8884d8' : '#8884d8'}
             paddingAngle={5}
             dataKey='value'
           >
@@ -36,17 +49,18 @@ function PieChartCard({ title, data }) {
           <Tooltip
             formatter={(value) => [`${value}%`, 'Percentage']}
             contentStyle={{
-              backgroundColor: '#333',
+              backgroundColor: darkMode ? '#333' : '#fff',
               border: 'none',
               borderRadius: '4px',
             }}
-            itemStyle={{ color: '#fff' }}
+            itemStyle={{ color: darkMode ? '#fff' : '#000' }}
           />
           <Legend
             layout='vertical'
             align='right'
             verticalAlign='middle'
             iconType='circle'
+            wrapperStyle={{ color: darkMode ? '#ccc' : '#333' }}
           />
         </PieChart>
       </ResponsiveContainer>

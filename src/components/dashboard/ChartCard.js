@@ -8,11 +8,24 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+import { useSelector } from 'react-redux';
 
 function ChartCard({ title, data, dataKey, yAxisLabel, tooltipFormatter }) {
+  const darkMode = useSelector((state) => state.theme.darkMode);
+
   return (
-    <div className='bg-white p-4 rounded-lg shadow'>
-      <h3 className='text-lg font-semibold mb-5'>{title}</h3>
+    <div
+      className={`p-4 rounded-lg shadow ${
+        darkMode ? 'bg-gray-800' : 'bg-white'
+      }`}
+    >
+      <h3
+        className={`text-lg font-semibold mb-5 ${
+          darkMode ? 'text-gray-300' : 'text-gray-800'
+        }`}
+      >
+        {title}
+      </h3>
       <ResponsiveContainer width='100%' height={300}>
         <AreaChart
           data={data}
@@ -25,14 +38,15 @@ function ChartCard({ title, data, dataKey, yAxisLabel, tooltipFormatter }) {
             strokeDasharray='4 4'
             vertical={false}
             className='grid-blur'
+            stroke={darkMode ? '#555' : '#ccc'}
           />
           <XAxis
             dataKey='name'
             axisLine={false}
             tickLine={false}
             tickMargin={10}
-            interval={0}
             tickFormatter={(tick) => tick}
+            stroke={darkMode ? '#ccc' : '#555'}
           />
           <YAxis
             axisLine={false}
@@ -41,21 +55,22 @@ function ChartCard({ title, data, dataKey, yAxisLabel, tooltipFormatter }) {
             tickFormatter={(value) =>
               `${yAxisLabel}${value / 1000}${yAxisLabel === '$' ? 'M' : 'k'}`
             }
+            stroke={darkMode ? '#ccc' : '#555'}
           />
           <Tooltip
             formatter={tooltipFormatter}
-            labelFormatter={(label) => ``}
+            labelFormatter={() => ``}
             contentStyle={{
-              backgroundColor: '#333',
+              backgroundColor: darkMode ? '#333' : '#fff',
               border: 'none',
               borderRadius: '4px',
             }}
-            itemStyle={{ color: '#fff' }}
+            itemStyle={{ color: darkMode ? '#fff' : '#000' }}
           />
           <Area
             type='monotone'
             dataKey={dataKey}
-            stroke='#000'
+            stroke={darkMode ? '#fff' : '#000'}
             strokeWidth={3}
             fillOpacity={1}
             fill='url(#colorValue)'
