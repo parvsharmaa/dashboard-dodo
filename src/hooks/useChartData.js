@@ -30,10 +30,10 @@ function useChartData() {
           { name: 'Jul', value: 12645 },
         ],
         referrerData: [
-          { name: 'YouTube', value: 200 },
-          { name: 'Twitter', value: 220 },
-          { name: 'Reddit', value: 190 },
-          { name: 'Indiehacker', value: 90 },
+          { name: 'YouTube', value: 200, color: '#8c8c8c' },
+          { name: 'Twitter', value: 220, color: '#ff944d' },
+          { name: 'Reddit', value: 190, color: '#006600' },
+          { name: 'Indiehacker', value: 90, color: '#8c8c8c' },
         ],
         locationData: [
           { name: 'United States', value: 38.4 },

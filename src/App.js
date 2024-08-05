@@ -1,13 +1,19 @@
 import React from 'react';
-import Sidebar from './components/layout/Sidebar';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Layout from './components/layout/Layout';
 import Dashboard from './pages/Dashboard';
+import Transactions from './pages/Transactions';
 
 function App() {
   return (
-    <div className='flex h-screen bg-gray-100'>
-      <Sidebar />
-      <Dashboard />
-    </div>
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path='/' element={<Dashboard />} />
+          <Route path='/transactions' element={<Transactions />} />
+        </Routes>
+      </Layout>
+    </Router>
   );
 }
 
