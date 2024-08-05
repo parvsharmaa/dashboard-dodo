@@ -22,16 +22,16 @@ function StatCard({ ind, title, value, change }) {
       <h3 className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
         {title}
       </h3>
-      <div className='flex gap-10 mt-1'>
+      <div className='flex flex-wrap gap-4 mt-1 items-center'>
         <p
-          className={`text-4xl font-semibold ${
+          className={`text-3xl font-semibold ${
             darkMode ? 'text-gray-200' : 'text-black'
           }`}
         >
           {value}
         </p>
         <p
-          className={`text-md mt-2 ml-1 flex gap-1 ${
+          className={`text-md flex gap-1 justify-between ${
             negative ? 'text-red-500' : 'text-green-500'
           }`}
         >

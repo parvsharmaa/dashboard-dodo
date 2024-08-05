@@ -1,6 +1,6 @@
 import React from 'react';
 
-function ActivityItem({ title, user, time, last }) {
+function ActivityItem({ title, user, time, last, darkMode }) {
   return (
     <div className='flex items-start space-x-3 mb-1'>
       <div>
@@ -9,7 +9,15 @@ function ActivityItem({ title, user, time, last }) {
           alt={user}
           className='w-8 h-8 rounded-full'
         />
-        {!last && <div className='ml-3.5 text-gray-200'> | </div>}
+        {!last && (
+          <div
+            className={`ml-3.5  ${
+              darkMode ? 'text-gray-700' : 'text-gray-200'
+            }`}
+          >
+            |
+          </div>
+        )}
       </div>
       <div>
         <p className='text-sm font-medium'>{title}</p>
