@@ -38,6 +38,15 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 2. **Theme Management:**
    - The dark mode theme is stored and managed using Redux.
 
+### Light Mode
+
+<img width="1680" alt="Screenshot 2024-08-06 at 2 45 37 AM" src="https://github.com/user-attachments/assets/eb9b6202-0b6f-460b-8e2f-66c0c1a8ea4e">
+
+### Dark Mode
+
+<img width="1680" alt="Screenshot 2024-08-06 at 2 45 46 AM" src="https://github.com/user-attachments/assets/8356e8d1-a253-44af-b29e-5feed837f645">
+
+
 ## **Available Scripts**
 
 In the project directory, you can run:
