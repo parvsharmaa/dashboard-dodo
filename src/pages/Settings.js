@@ -140,7 +140,7 @@ const Settings = () => {
             name='address'
             value={formData.address}
             onChange={handleChange}
-            rows={4}
+            rows={12}
             className={`shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline ${
               darkMode
                 ? 'bg-gray-800 text-gray-300 border-gray-600'
