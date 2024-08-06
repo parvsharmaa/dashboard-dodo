@@ -11,7 +11,7 @@ import {
   WindowIcon,
 } from '@heroicons/react/24/outline';
 
-function Navbar({ onToggleDarkMode, darkMode }) {
+function Navbar({ onToggleDarkMode, darkMode, toggleNotifications }) {
   const location = useLocation();
   const pageName =
     location.pathname === '/' ? 'Overview' : location.pathname.slice(1);
@@ -58,17 +58,23 @@ function Navbar({ onToggleDarkMode, darkMode }) {
           </div>
           {darkMode ? (
             <MoonIcon
+              title='Dark Theme'
               className='h-6 w-6 cursor-pointer'
               onClick={onToggleDarkMode}
             />
           ) : (
             <SunIcon
+              title='Light Theme'
               className='h-6 w-6 cursor-pointer'
               onClick={onToggleDarkMode}
             />
           )}
           <ClockIcon className='h-6 w-6' />
-          <BellIcon className='h-6 w-6' />
+          <BellIcon
+            title='Notifications'
+            className='h-6 w-6 cursor-pointer'
+            onClick={toggleNotifications}
+          />
           <WindowIcon className='h-6 w-6' />
         </div>
       </div>

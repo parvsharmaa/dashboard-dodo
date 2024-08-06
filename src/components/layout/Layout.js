@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
@@ -8,6 +8,11 @@ import { toggleDarkMode } from '../../redux/ThemeSlice';
 function Layout({ children }) {
   const dispatch = useDispatch();
   const darkMode = useSelector((state) => state.theme.darkMode);
+  const [showNotifications, setShowNotifications] = useState(true);
+
+  const toggleNotifications = () => {
+    setShowNotifications(!showNotifications);
+  };
 
   return (
     <div
@@ -20,6 +25,7 @@ function Layout({ children }) {
         <Navbar
           onToggleDarkMode={() => dispatch(toggleDarkMode())}
           darkMode={darkMode}
+          toggleNotifications={toggleNotifications}
         />
         <div
           className={`flex flex-1 overflow-hidden ${
@@ -31,7 +37,7 @@ function Layout({ children }) {
           </main>
         </div>
       </div>
-      <NotificationsPanel />
+      {showNotifications && <NotificationsPanel />}
     </div>
   );
 }
